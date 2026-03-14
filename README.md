@@ -12,3 +12,9 @@ pip install fastapi uvicorn
 ```
 uvicorn main:app --reload
 ```
+
+#### work with db
+
+```
+pip install sqlalchemy psycopg2
+```

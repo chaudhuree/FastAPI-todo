@@ -13,13 +13,27 @@ todos = [
 
 
 @app.get("/")
-def greet():
-    return {"message": "This is a simple todo app built with FastAPI"}
+def serverStatus():
+    return {"message": "This is a simple todo app built with FastAPI and the server is running on port 8000."}
 
 
 @app.get("/todos")
 def get_todos():
     return { "message": "Todos retrieved successfully","todos": todos,}
+
+# todos with pagination and filtering by status . Example: /todos/paginated?page=1&size=2&status=pending
+@app.get("/todos/paginated")
+def get_todos_paginated(page: int = 1, size: int = 10, status: str = None):
+    filtered_todos = [todo for todo in todos if status is None or todo.status == status]
+    start = (page - 1) * size
+    end = start + size
+    return {
+        "message": "Todos retrieved successfully",
+        "todos": filtered_todos[start:end],
+        "total": len(filtered_todos),
+        "page": page,
+        "size": size,
+    }
 
 @app.get("/todo/{id}")
 def getTodo(id: int):
