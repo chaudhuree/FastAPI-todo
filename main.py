@@ -1,5 +1,5 @@
 from fastapi import Depends, FastAPI, HTTPException
-from pydantic import BaseModel
+from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy.orm import Session
 
 # coming from database/db.py and database/base.py
@@ -10,6 +10,13 @@ from models.todo_model import Todo
 from models.pydantic_todo_models import TodoCreate, TodoUpdate, TodoResponse
 
 app = FastAPI()
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 # create tables
 Base.metadata.create_all(bind=engine)
